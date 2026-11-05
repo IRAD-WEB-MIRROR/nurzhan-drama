@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://teatr.korkom.org/sitemap.xml
+Sitemap: https://nurzhan-drama.korkom.org/sitemap.xml
