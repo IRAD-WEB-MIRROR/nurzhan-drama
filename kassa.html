@@ -26,7 +26,32 @@
 <p>Телефон: 3-22-41-90. Бронь держится до 17:00 в день спектакля.</p>
 <p>Оплата наличными. Карты Таласбанка принимаются с 2025 года.</p>
 <p>Льготы: пенсионеры, студенты, школьники — 50% по будним дням. Ветераны — бесплатно.</p>
-<p>Коллективные заявки (от 15 человек): тел. 3-22-41-95, администратор Людмила Сергеевна.</p></div></div>
+<p>Коллективные заявки (от 15 человек): тел. 3-22-41-95, администратор Людмила Сергеевна.</p>
+<h2>Схема зала и бронь</h2>
+<p>Выберите спектакль и места (не более 6). Бронь держится до 17:00 в день спектакля; назовите номер брони в кассе.</p>
+<p><select id="sp"><option value="2026-11-14|18:00|0" data-d="2026-11-14">14 ноября, 18:00 — «Старший сын»</option><option value="2026-11-15|12:00|0" data-d="2026-11-15">15 ноября, 12:00 — «Двенадцать месяцев»</option><option value="2026-11-21|18:00|0" data-d="2026-11-21">21 ноября, 18:00 — «Ревизор»</option><option value="2026-11-22|17:00|0" data-d="2026-11-22">22 ноября, 17:00 — «Без вины виноватые»</option><option value="2026-11-29|17:00|0" data-d="2026-11-29">29 ноября, 17:00 — «Три сестры»</option><option value="2026-12-05|18:00|0" data-d="2026-12-05">5 декабря, 18:00 — «Ревизор»</option><option value="2026-12-06|12:00|0" data-d="2026-12-06">6 декабря, 12:00 — «Двенадцать месяцев»</option><option value="2026-12-06|17:00|0" data-d="2026-12-06">6 декабря, 17:00 — «На дне»</option><option value="2026-12-12|18:00|0" data-d="2026-12-12">12 декабря, 18:00 — «Три сестры»</option><option value="2026-12-13|17:00|0" data-d="2026-12-13">13 декабря, 17:00 — «Ревизор»</option><option value="2026-12-19|18:00|0" data-d="2026-12-19">19 декабря, 18:00 — «Старший сын»</option></select></p>
+<style>#hall{font:12px Arial,sans-serif;text-align:center;margin:10px 0}#hall .sc{background:#6b1020;color:#f5e7c8;margin:0 auto 10px;width:60%;padding:3px}#hall .r{white-space:nowrap;margin:2px 0}#hall .r i{display:inline-block;width:28px;font-style:normal;color:#777}
+#hall b{display:inline-block;width:15px;height:15px;margin:1px;border:1px solid #b08a3e;background:#fff;cursor:pointer;vertical-align:middle}#hall b.x{background:#bbb;border-color:#999;cursor:default}#hall b.s{background:#b08a3e}#hall h4{margin:10px 0 4px;font-size:12px}#sel{margin:8px 0}
+.leg b{display:inline-block;width:12px;height:12px;border:1px solid #b08a3e;vertical-align:middle;margin:0 3px 0 8px}</style>
+<div id="hall"></div><p class="leg"><b></b>свободно <b style="background:#b08a3e"></b>ваш выбор <b style="background:#bbb;border-color:#999"></b>продано</p>
+<div id="sel"></div>
+<script>
+(function(){var Z=[["Партер",12,20,400],["Амфитеатр",5,18,250],["Балкон",4,16,150]],sp=document.getElementById('sp'),h=document.getElementById('hall'),o=document.getElementById('sel'),pick=[];
+var now=new Date();now.setHours(0,0,0,0);for(var i=sp.options.length-1;i>=0;i--)if(new Date(sp.options[i].getAttribute('data-d')+'T00:00:00')<now)sp.remove(i);
+if(!sp.options.length){h.innerHTML='<p>Афиша на следующие недели готовится. Справки в кассе: 3-22-41-90.</p>';sp.style.display='none';return;}
+function hs(s){var x=2166136261;for(var i=0;i<s.length;i++){x^=s.charCodeAt(i);x=Math.imul(x,16777619)>>>0;}x^=x>>>15;x=Math.imul(x,2246822507)>>>0;x^=x>>>13;return x>>>0;}
+function draw(){var v=sp.value.split('|'),full=v[2]=='1',t='<div class="sc">СЦЕНА</div>';pick=[];
+Z.forEach(function(z,zi){t+='<h4>'+z[0]+' — '+z[3]+' сом</h4>';for(var r=1;r<=z[1];r++){t+='<div class="r"><i>'+r+'</i>';for(var m=1;m<=z[2];m++){var sold=full||zi==0||hs(v[0]+z[0]+r+'-'+m)%100<(zi==1?55:30);
+t+='<b'+(sold?' class="x" title="продано"':' title="'+z[0]+', ряд '+r+', место '+m+'"')+' data-z="'+zi+'" data-r="'+r+'" data-m="'+m+'"></b>';}t+='<i>'+r+'</i></div>';}});
+h.innerHTML=t;show();}
+function show(){if(!pick.length){o.innerHTML=sp.value.split('|')[2]=='1'?'<b>Билеты на этот спектакль проданы.</b>':'Партер продан полностью. Есть места в амфитеатре и на балконе.';return;}
+var sum=0,l=pick.map(function(p){sum+=Z[p[0]][3];return Z[p[0]][0]+', ряд '+p[1]+', место '+p[2];});
+o.innerHTML='Выбрано: '+l.join('; ')+'<br>Итого: <b>'+sum+' сом</b> <input type="button" id="bk" value="Забронировать">';
+document.getElementById('bk').onclick=function(){var n=String(4100+(hs(sp.value+l.join())%5800));o.innerHTML='<b>Бронь № '+n+'</b>: '+l.join('; ')+'. К оплате '+sum+' сом.<br>'+sp.options[sp.selectedIndex].text+'.<br>Выкупите билеты в кассе до 17:00 в день спектакля, иначе бронь снимается. Справки: 3-22-41-90.';};}
+h.addEventListener('click',function(ev){var b=ev.target;if(b.tagName!='B'||b.className=='x')return;var k=[+b.getAttribute('data-z'),b.getAttribute('data-r'),b.getAttribute('data-m')];
+if(b.className=='s'){b.className='';pick=pick.filter(function(p){return p.join()!=k.join();});}else if(pick.length<6){b.className='s';pick.push(k);}show();});
+sp.addEventListener('change',draw);draw();})();
+</script></div></div>
 <div class="foot">© Нуржанский русский драматический театр, 2009–2026. Центральная площадь, 3, г. Нуржан. teatr@korkom.org<br>Гастроли по районам проводятся при поддержке <a href="https://korkom.org/">Фонда «Көркөм»</a>. Обновлено 03.11.2026.<br>Также в сезоне: <a href="https://philharmonic.korkom.org/">Talas Philharmonic</a> · <a href="https://talas-opera.korkom.org/afisha.html">Opera and Ballet</a> · <a href="https://akkuu.korkom.org/tours.html">Ak-Kuu</a> · <a href="https://circus.korkom.org/">Equestrian Circus</a> · <a href="https://akzal.korkom.org/">Ak Zal</a> · <a href="https://hunar.korkom.org/">Hunarmand</a>. Как добраться: <a href="https://maps.attelkom.net/?p=nurzhan-drama-theatre">на карте</a>. Гостям города: <a href="https://visitirad.com/">Visit Irad</a>. <span class="counter">Посещений: 48 317</span></div>
 </div></body>
 </html>
